@@ -89,14 +89,21 @@ int main(void)
     MX_GPIO_Init();
     MX_USART2_UART_Init();
     /* USER CODE BEGIN 2 */
+    for(int i = 0; i < 10; i++)
+    {
+        tx_usart_data[i] = i;
+    }
     //HAL_UART_Transmit_IT(&huart2, tx_usart_data, 10);
-    HAL_UART_Receive_IT(&huart2, rx_usart_data, 255);
+    //HAL_UART_Receive_IT(&huart2, rx_usart_data, 255);
     /* USER CODE END 2 */
 
     /* Infinite loop */
     /* USER CODE BEGIN WHILE */
     while(1)
     {
+        HAL_UART_Transmit_IT(&huart2, tx_usart_data, 10);
+        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
+        HAL_Delay(1000);
         /* USER CODE END WHILE */
 
         /* USER CODE BEGIN 3 */

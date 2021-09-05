@@ -120,7 +120,7 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 {
     if(huart == &huart2)
     {
-
+        HAL_GPIO_TogglePin(GPIOD,GPIO_PIN_15);
     }
 }
 
