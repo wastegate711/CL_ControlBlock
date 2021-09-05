@@ -120,7 +120,7 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 {
     if(huart == &huart2)
     {
-        HAL_GPIO_TogglePin(GPIOD,GPIO_PIN_15);
+        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
     }
 }
 
@@ -128,7 +128,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
     if(huart == &huart2)
     {
-
+        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
     }
 }
 
@@ -137,6 +137,14 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
     if(huart == &huart2)
     {
 
+    }
+}
+
+void HAL_UART_AbortReceiveCpltCallback(UART_HandleTypeDef *huart)
+{
+    if(huart == &huart2)
+    {
+        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
     }
 }
 /* USER CODE END 1 */

@@ -50,8 +50,9 @@ extern uint8_t rx_usart_data[BUF_LEN];
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-/* USER CODE BEGIN PFP */
 
+/* USER CODE BEGIN PFP */
+void ArrayClear(uint8_t *data, int len);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -94,16 +95,22 @@ int main(void)
         tx_usart_data[i] = i;
     }
     //HAL_UART_Transmit_IT(&huart2, tx_usart_data, 10);
-    //HAL_UART_Receive_IT(&huart2, rx_usart_data, 255);
+    HAL_UART_Receive_IT(&huart2, rx_usart_data, 255);
     /* USER CODE END 2 */
 
     /* Infinite loop */
     /* USER CODE BEGIN WHILE */
     while(1)
     {
-        HAL_UART_Transmit_IT(&huart2, tx_usart_data, 10);
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
-        HAL_Delay(1000);
+        if(rx_usart_data[9] == 0x09 && huart2.RxXferCount == 245)
+        {
+            HAL_UART_Transmit_IT(&huart2, rx_usart_data, 10);
+            HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
+            ArrayClear(rx_usart_data, 10);
+            HAL_UART_AbortReceive_IT(&huart2);
+            HAL_UART_Receive_IT(&huart2, rx_usart_data, 255);
+        }
+        HAL_Delay(10);
         /* USER CODE END WHILE */
 
         /* USER CODE BEGIN 3 */
@@ -155,7 +162,13 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void ArrayClear(uint8_t *data, int len)
+{
+    for(int i = 0; i < len; i++)
+    {
+        data[i] = 0;
+    }
+}
 /* USER CODE END 4 */
 
 /**
