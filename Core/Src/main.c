@@ -95,7 +95,7 @@ int main(void)
         tx_usart_data[i] = i;
     }
     //HAL_UART_Transmit_IT(&huart2, tx_usart_data, 10);
-    HAL_UART_Receive_IT(&huart2, rx_usart_data, 255);
+    HAL_UART_Receive_IT(&huart2, rx_usart_data, 20);
     /* USER CODE END 2 */
 
     /* Infinite loop */
