@@ -102,13 +102,13 @@ int main(void)
     /* USER CODE BEGIN WHILE */
     while(1)
     {
-        if(rx_usart_data[9] == 0x09 && huart2.RxXferCount == 245)
+        if(rx_usart_data[9] == 0x09 & huart2.RxXferCount >= 10)
         {
             HAL_UART_Transmit_IT(&huart2, rx_usart_data, 10);
             HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
             ArrayClear(rx_usart_data, 10);
             HAL_UART_AbortReceive_IT(&huart2);
-            HAL_UART_Receive_IT(&huart2, rx_usart_data, 255);
+            HAL_UART_Receive_IT(&huart2, rx_usart_data, 20);
         }
         HAL_Delay(10);
         /* USER CODE END WHILE */
