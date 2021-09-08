@@ -24,7 +24,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "Foo.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -102,6 +102,7 @@ int main(void)
     /* USER CODE BEGIN WHILE */
     while(1)
     {
+        Foo(GPIOD, GPIO_PIN_15);
         if(rx_usart_data[9] == 0x09 & huart2.RxXferCount >= 10)
         {
             HAL_UART_Transmit_IT(&huart2, rx_usart_data, 10);
@@ -110,7 +111,7 @@ int main(void)
             HAL_UART_AbortReceive_IT(&huart2);
             HAL_UART_Receive_IT(&huart2, rx_usart_data, 20);
         }
-        HAL_Delay(10);
+        HAL_Delay(30);
         /* USER CODE END WHILE */
 
         /* USER CODE BEGIN 3 */
