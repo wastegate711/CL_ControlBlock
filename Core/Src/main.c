@@ -107,6 +107,7 @@ int main(void)
 
     /* Infinite loop */
     /* USER CODE BEGIN WHILE */
+
     while(1)
     {
         Foo(GPIOD, GPIO_PIN_15);
