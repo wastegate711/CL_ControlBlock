@@ -26,6 +26,7 @@
 /* USER CODE BEGIN Includes */
 #include "Foo.h"
 #include "Crc16.h"
+#include <string.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -48,7 +49,11 @@
 extern uint8_t tx_usart_data[BUF_LEN];
 extern uint8_t rx_usart_data[BUF_LEN];
 uint16_t result;
-uint8_t crc_test[]={0,1,2,3,4,5,6,7,8,9};
+uint8_t crc_test[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+uint8_t access = 0; //содержит результат проверки CRC входящих данных.
+uint8_t compAddr = 0x01; // адрес компьютера.
+uint8_t blockAddr = 0x02; // адрес блока управления.
+uint16_t recievLen = BUF_LEN;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -98,7 +103,7 @@ int main(void)
         tx_usart_data[i] = i;
     }
 
-    char data[]={"This serial port text test COM портом setting serial port state."};
+    char data[] = {"This serial port text test COM портом setting serial port state."};
 
     result = GetCrc16(crc_test, 10);
     //HAL_UART_Transmit_IT(&huart2, tx_usart_data, 10);
@@ -110,6 +115,19 @@ int main(void)
 
     while(1)
     {
+        if(rx_usart_data[0] == compAddr &&
+           rx_usart_data[1] == blockAddr &&
+           rx_usart_data[3] == recievLen - huart2.RxXferCount)
+        {
+            if(access = CompareCrc16(rx_usart_data) == 1)
+            {
+
+            }
+
+            HAL_UART_AbortReceive(&huart2);
+            memset(rx_usart_data, 0, sizeof(rx_usart_data));
+        }
+        //////////////////
         Foo(GPIOD, GPIO_PIN_15);
         if(rx_usart_data[9] == 0x09)
         {

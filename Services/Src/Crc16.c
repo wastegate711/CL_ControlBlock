@@ -42,7 +42,7 @@ uint16_t crcTable[] =
  * @param len длина массива.
  * @return вернет готовый CRC16.
  */
-uint16_t GetCrc16(uint8_t* data, int length)
+uint16_t GetCrc16(uint8_t *data, int length)
 {
 // CRC-16/KERMIT
     uint16_t crc = 0;
@@ -54,4 +54,35 @@ uint16_t GetCrc16(uint8_t* data, int length)
     }
 
     return crc;
+}
+
+/**
+ * Сравнивает констрольную сумму входящих данных.
+ * @param Buf массив с входящими данными.
+ * @return Вернет 1 если данные корректны и вернет 0 если данные не корректны.
+ */
+uint8_t CompareCrc16(uint8_t *Buf)//функция сравнения CRC
+{
+    uint16_t Compare = 0;
+    uint8_t Len = 0;
+    uint8_t a[2];
+    uint8_t b[2];
+    uint8_t Dostup = 0;
+    if(Buf[3] > 4)
+    {
+        Compare = GetCrc16(Buf, Buf[3] - 2);
+        a[0] = Compare >> 8;
+        a[1] = Compare;
+        Len = Buf[3];
+        Len = Len - 1;
+        b[1] = Buf[Len];
+        Len = Len - 1;
+        b[0] = Buf[Len];
+
+        if(a[0] == b[0] && a[1] == b[1])//сравниваем CRC16 преобразованный и полученые результаты
+        {
+            Dostup = 1;  //если все сошлось разрешаем доступ на обработку полученых данных
+        }
+    }
+    return Dostup;
 }
