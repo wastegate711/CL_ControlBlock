@@ -108,7 +108,7 @@ int main(void)
 
     //result = GetCrc16(crc_test, 10);
     //HAL_UART_Transmit_IT(&huart2, tx_usart_data, 10);
-    HAL_UART_Receive_IT(&huart2, rx_usart_data, 20);
+    //HAL_UART_Receive_IT(&huart2, rx_usart_data, 20);
   /* USER CODE END 2 */
 
   /* Init scheduler */
