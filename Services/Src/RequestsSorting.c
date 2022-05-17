@@ -5,6 +5,10 @@
 
 extern uint8_t tx_usart_data[BUF_LEN];
 
+/**
+ * Функция производит сортировку входящих запросов.
+ * @param data Массив который нужно сортировать.
+ */
 void IncomingRequest(uint8_t *data)
 {
     switch(data[2])

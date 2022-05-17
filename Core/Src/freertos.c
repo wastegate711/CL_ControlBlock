@@ -80,7 +80,7 @@ void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 void MX_FREERTOS_Init(void)
 {
     /* USER CODE BEGIN Init */
-    HAL_UART_Receive_IT(&huart2, rx_usart_data, RECIEV_LEN);
+    HAL_UART_Receive_IT(&huart2, rx_usart_data, RECEIV_LEN);
     /* USER CODE END Init */
 
     /* USER CODE BEGIN RTOS_MUTEX */
@@ -126,18 +126,36 @@ void StartDefaultTask(void *argument)
     /* Infinite loop */
     for(;;)
     {
-        if(rx_usart_data[0] == COMP_ADDRESS &&
-                      rx_usart_data[1] == CONTROL_BLOCK_ADDRESS &&
-                      rx_usart_data[3] == RECIEV_LEN - huart2.RxXferCount)
-                   {
-                       if(access = CompareCrc16(rx_usart_data) == 1)
-                       {
-                           IncomingRequest(rx_usart_data);
-                       }
+//        if(RECEIV_LEN - huart2.RxXferCount >= 5)
+//        {
+//            HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
+//            memset(rx_usart_data, 0, sizeof(rx_usart_data));
+//            HAL_UART_AbortReceive_IT(&huart2);
+//            HAL_UART_Receive_IT(&huart2, rx_usart_data, RECEIV_LEN);
+//        }
+        if(RECEIV_LEN - huart2.RxXferCount != 0)
+        {
+            if(rx_usart_data[0] == COMP_ADDRESS &&
+               rx_usart_data[1] == CONTROL_BLOCK_ADDRESS &&
+               rx_usart_data[3] == RECEIV_LEN - huart2.RxXferCount)
+            {
+                if(access = CompareCrc16(rx_usart_data) == 1)
+                {
+                    IncomingRequest(rx_usart_data);
+                    HAL_GPIO_TogglePin(GPIOD,GPIO_PIN_15);
+                }
 
-                       memset(rx_usart_data, 0, sizeof(rx_usart_data));
-                       HAL_UART_AbortReceive(&huart2);
-                   }
+                memset(rx_usart_data, 0, sizeof(rx_usart_data)); // очистка массива
+                HAL_UART_AbortReceive(&huart2); //отключение прерываний для входящих данных
+                HAL_UART_Receive_IT(&huart2, rx_usart_data, RECEIV_LEN); //включение прерываний для входящих данных
+            } else
+            {
+                HAL_GPIO_TogglePin(GPIOD,GPIO_PIN_14);
+                memset(rx_usart_data, 0, sizeof(rx_usart_data)); // очистка массива
+                HAL_UART_AbortReceive(&huart2); //отключение прерываний для входящих данных
+                HAL_UART_Receive_IT(&huart2, rx_usart_data, RECEIV_LEN); //включение прерываний для входящих данных
+            }
+        }
         osDelay(10);
     }
     /* USER CODE END StartDefaultTask */
