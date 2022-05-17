@@ -5,5 +5,7 @@
 
 // Отправляет ведущему текущее состояние.
 void GetStatus();
+//По запросу отправляет свой UID
+void GetUID();
 
 #endif //CONTROLBLOCK_ANSWERSTOQUESTION_H

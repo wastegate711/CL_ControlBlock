@@ -10,6 +10,6 @@
  * Функция производит сортировку входящих запросов.
  * @param data Массив который нужно сортировать.
  */
-void IncomingRequest(uint8_t *data);
+void IncomingRequest(const uint8_t *data);
 
 #endif //CONTROLBLOCK_REQUESTSSORTING_H

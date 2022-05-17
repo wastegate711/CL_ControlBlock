@@ -21,3 +21,12 @@ void GetStatus()
     tx_usart_data[7] = crc;
     HAL_UART_Transmit_IT(&huart2, tx_usart_data, tx_usart_data[3]);
 }
+
+//По запросу отправляет свой UID
+void GetUID()
+{
+    tx_usart_data[0] = COMP_ADDRESS;
+    tx_usart_data[1] = CONTROL_BLOCK_ADDRESS;
+    tx_usart_data[2] = GET_UID;
+    tx_usart_data[3] = 0x00;
+}
