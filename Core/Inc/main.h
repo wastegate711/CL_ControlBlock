@@ -58,6 +58,38 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define Valve_Cool_Water_Pin GPIO_PIN_7
+#define Valve_Cool_Water_GPIO_Port GPIOE
+#define Valve_Hot_Water_Pin GPIO_PIN_8
+#define Valve_Hot_Water_GPIO_Port GPIOE
+#define Valve_Foam_Pin GPIO_PIN_9
+#define Valve_Foam_GPIO_Port GPIOE
+#define Valve_Air_Pin GPIO_PIN_10
+#define Valve_Air_GPIO_Port GPIOE
+#define Valve_Powdr_Pin GPIO_PIN_11
+#define Valve_Powdr_GPIO_Port GPIOE
+#define Valve_Osmos_Pin GPIO_PIN_12
+#define Valve_Osmos_GPIO_Port GPIOE
+#define Valve_Sbros_Pin GPIO_PIN_13
+#define Valve_Sbros_GPIO_Port GPIOE
+#define Dozator_Vosk_Pin GPIO_PIN_14
+#define Dozator_Vosk_GPIO_Port GPIOE
+#define Dozator_Pena_Pin GPIO_PIN_15
+#define Dozator_Pena_GPIO_Port GPIOE
+#define DatchikPotoka_Pin GPIO_PIN_10
+#define DatchikPotoka_GPIO_Port GPIOB
+#define Motor_Start_Pin GPIO_PIN_10
+#define Motor_Start_GPIO_Port GPIOD
+#define Motor_Revers_Pin GPIO_PIN_11
+#define Motor_Revers_GPIO_Port GPIOD
+#define PWM_Inventor_Pin GPIO_PIN_12
+#define PWM_Inventor_GPIO_Port GPIOD
+#define CD_card_detect_Pin GPIO_PIN_7
+#define CD_card_detect_GPIO_Port GPIOC
+#define CS_rs485_USART1_Pin GPIO_PIN_11
+#define CS_rs485_USART1_GPIO_Port GPIOA
+#define CS_rs485_USART2_Pin GPIO_PIN_7
+#define CS_rs485_USART2_GPIO_Port GPIOD
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
