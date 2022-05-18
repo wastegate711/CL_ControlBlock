@@ -25,7 +25,11 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <memory.h>
+#include <GlobalSettings.h>
+#include <Crc16.h>
+#include "RequestsSorting.h"
+#include "usart.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -45,7 +49,11 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
-
+extern uint8_t rx_usart_data[BUF_LEN];
+uint8_t access = 0; //содержит результат проверки CRC входящих данных.
+uint16_t result;
+// Флаги и статусы состояния.
+uint8_t statusState = 0x00; // текущий статус состояния.
 /* USER CODE END Variables */
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
@@ -72,7 +80,7 @@ void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 void MX_FREERTOS_Init(void)
 {
     /* USER CODE BEGIN Init */
-
+    HAL_UART_Receive_IT(&huart2, rx_usart_data, RECEIV_LEN);
     /* USER CODE END Init */
 
     /* USER CODE BEGIN RTOS_MUTEX */
@@ -118,8 +126,37 @@ void StartDefaultTask(void *argument)
     /* Infinite loop */
     for(;;)
     {
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15);
-        osDelay(30);
+//        if(RECEIV_LEN - huart2.RxXferCount >= 5)
+//        {
+//            HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
+//            memset(rx_usart_data, 0, sizeof(rx_usart_data));
+//            HAL_UART_AbortReceive_IT(&huart2);
+//            HAL_UART_Receive_IT(&huart2, rx_usart_data, RECEIV_LEN);
+//        }
+        if(RECEIV_LEN - huart2.RxXferCount != 0)
+        {
+            if(rx_usart_data[0] == COMP_ADDRESS &&
+               rx_usart_data[1] == CONTROL_BLOCK_ADDRESS &&
+               rx_usart_data[3] == RECEIV_LEN - huart2.RxXferCount)
+            {
+                if(access = CompareCrc16(rx_usart_data) == 1)
+                {
+                    IncomingRequest(rx_usart_data);
+                    HAL_GPIO_TogglePin(GPIOD,GPIO_PIN_15);
+                }
+
+                memset(rx_usart_data, 0, sizeof(rx_usart_data)); // очистка массива
+                HAL_UART_AbortReceive(&huart2); //отключение прерываний для входящих данных
+                HAL_UART_Receive_IT(&huart2, rx_usart_data, RECEIV_LEN); //включение прерываний для входящих данных
+            } else
+            {
+                HAL_GPIO_TogglePin(GPIOD,GPIO_PIN_14);
+                memset(rx_usart_data, 0, sizeof(rx_usart_data)); // очистка массива
+                HAL_UART_AbortReceive(&huart2); //отключение прерываний для входящих данных
+                HAL_UART_Receive_IT(&huart2, rx_usart_data, RECEIV_LEN); //включение прерываний для входящих данных
+            }
+        }
+        osDelay(10);
     }
     /* USER CODE END StartDefaultTask */
 }

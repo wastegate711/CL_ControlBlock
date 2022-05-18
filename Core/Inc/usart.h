@@ -27,6 +27,7 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "GlobalSettings.h"
 
 /* USER CODE BEGIN Includes */
 
