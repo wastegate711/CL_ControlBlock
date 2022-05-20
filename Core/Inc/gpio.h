@@ -41,6 +41,30 @@ void MX_GPIO_Init(void);
 /* USER CODE BEGIN Prototypes */
 void Cs_Rs485_Usart1(GPIO_PinState state);
 void Cs_Rs485_Usart2(GPIO_PinState state);
+void SetValveCoolWater(GPIO_PinState state);
+void SetValveHotWater(GPIO_PinState state);
+void SetValveAir(GPIO_PinState state);
+void SetValveFoam(GPIO_PinState state);
+void SetValveDrop(GPIO_PinState state);
+void SetValveOsmos(GPIO_PinState state);
+void SetValveInsect(GPIO_PinState state);
+void SetDispenserVosk(GPIO_PinState state);
+void SetDispenserFoam(GPIO_PinState state);
+void SetMotorStart(GPIO_PinState state);
+void SetMotorRevers(GPIO_PinState state);
+GPIO_PinState GetMotorRevers();
+GPIO_PinState GetMotorStart();
+GPIO_PinState GetCdCardDetect();
+GPIO_PinState GetDispenserFoam();
+GPIO_PinState GetDispenserVosk();
+GPIO_PinState GetValveInsect();
+GPIO_PinState GetSensorStream();
+GPIO_PinState GetValveFoam();
+GPIO_PinState GetValveAir();
+GPIO_PinState GetValveDrop();
+GPIO_PinState GetValveOsmos();
+GPIO_PinState GetValveCoolWaterState();
+GPIO_PinState GetValveHotWater();
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

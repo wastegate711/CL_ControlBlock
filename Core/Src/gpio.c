@@ -118,6 +118,7 @@ void Cs_Rs485_Usart1(GPIO_PinState state)
 {
     HAL_GPIO_WritePin(CS_rs485_USART1_GPIO_Port, CS_rs485_USART1_Pin, state);
 }
+
 /**
  * Управление выводом управляющим режимом работы микросхемы RS-485
  * @param state Статус SET-передача RESET-прием
@@ -125,5 +126,221 @@ void Cs_Rs485_Usart1(GPIO_PinState state)
 void Cs_Rs485_Usart2(GPIO_PinState state)
 {
     HAL_GPIO_WritePin(CS_rs485_USART2_GPIO_Port, CS_rs485_USART2_Pin, state);
+}
+
+/**
+ * Управление клапаном холодной воды.
+ * @param state Состояние включен/выключен.
+ */
+void SetValveCoolWater(GPIO_PinState state)
+{
+    HAL_GPIO_WritePin(Valve_Cool_Water_GPIO_Port, Valve_Cool_Water_Pin, state);
+}
+
+/**
+ * Проверяет состояние клапана холодной воды.
+ * @return Вернет состояние клапана SET-клапан включен, RESET-выключен.
+ */
+GPIO_PinState GetValveCoolWaterState()
+{
+    return HAL_GPIO_ReadPin(Valve_Cool_Water_GPIO_Port, Valve_Cool_Water_Pin);
+}
+
+/**
+ * Управление клапаном воздуха.
+ * @param state Состояние Включен/Выключен.
+ */
+void SetValveAir(GPIO_PinState state)
+{
+    HAL_GPIO_WritePin(Valve_Air_GPIO_Port, Valve_Air_Pin, state);
+}
+
+/**
+ * Проверяет состояние клапана воздух.
+ * @return Вернет состояние клапана SET-клапан включен, RESET-выключен.
+ */
+GPIO_PinState GetValveAir()
+{
+    return HAL_GPIO_ReadPin(Valve_Air_GPIO_Port, Valve_Air_Pin);
+}
+
+/**
+ * Управление клапаном средства от насекомых.
+ * @param state Состояние Включен/Выключен.
+ */
+void SetValveInsect(GPIO_PinState state)
+{
+    HAL_GPIO_WritePin(Valve_Powdr_GPIO_Port, Valve_Powdr_Pin, state);
+}
+
+/**
+ * Проверяет состояние клапана средсво от насекомых.
+ * @return Вернет состояние клапана SET-клапан включен, RESET-выключен.
+ */
+GPIO_PinState GetValveInsect()
+{
+    return HAL_GPIO_ReadPin(Valve_Powdr_GPIO_Port, Valve_Powdr_Pin);
+}
+
+/**
+ * Управление клапаном пена.
+ * @param state Состояние Включен/Выключен.
+ */
+void SetValveFoam(GPIO_PinState state)
+{
+    HAL_GPIO_WritePin(Valve_Foam_GPIO_Port, Valve_Foam_Pin, state);
+}
+
+/**
+ * Управление дозатором воск.
+ * @param state Состояние Включен/Выключен.
+ */
+void SetDispenserVosk(GPIO_PinState state)
+{
+    HAL_GPIO_WritePin(Dozator_Vosk_GPIO_Port, Dozator_Vosk_Pin, state);
+}
+
+/**
+ * Проверяет состояние дозатора воск.
+ * @return Вернет состояние дозатора SET-включен, RESET-выключен.
+ */
+GPIO_PinState GetDispenserVosk()
+{
+    return HAL_GPIO_ReadPin(Dozator_Vosk_GPIO_Port, Dozator_Vosk_Pin);
+}
+
+/**
+ * Считывает наличие карты памяти в слоте.
+ * @return Вернет SET-карта вставлена, RESET-карты нет.
+ */
+GPIO_PinState GetCdCardDetect()
+{
+    return HAL_GPIO_ReadPin(CD_card_detect_GPIO_Port, CD_card_detect_Pin);
+}
+
+/**
+ * Управление частотником, включает частотник вращение вперед.
+ * @param state Состояние Включен/Выключен.
+ */
+void SetMotorStart(GPIO_PinState state)
+{
+    HAL_GPIO_WritePin(Motor_Start_GPIO_Port, Motor_Start_Pin, state);
+}
+
+/**
+ * Считывает состояние вывода управления частотником вращения вперед.
+ * @return Вернет SET-включено, RESET-выключено.
+ */
+GPIO_PinState GetMotorStart()
+{
+    return HAL_GPIO_ReadPin(Motor_Start_GPIO_Port, Motor_Start_Pin);
+}
+
+/**
+ * Управление частотником, включает частотник вращение назад.
+ * @param state Состояние Включен/Выключен.
+ */
+void SetMotorRevers(GPIO_PinState state)
+{
+    HAL_GPIO_WritePin(Motor_Revers_GPIO_Port, Motor_Revers_Pin, state);
+}
+
+/**
+ * Считывает состояние вывода управления частотником вращения назад.
+ * @return Вернет SET-включено, RESET-выключено.
+ */
+GPIO_PinState GetMotorRevers()
+{
+    return HAL_GPIO_ReadPin(Motor_Revers_GPIO_Port, Motor_Revers_Pin);
+}
+
+/**
+ * Управление дозатором пена.
+ * @param state Состояние Включен/Выключен.
+ */
+void SetDispenserFoam(GPIO_PinState state)
+{
+    HAL_GPIO_WritePin(Dozator_Pena_GPIO_Port, Dozator_Pena_Pin, state);
+}
+
+/**
+ * Проверяет состояние дозатора пена.
+ * @return Вернет состояние дозатора SET-включен, RESET-выключен.
+ */
+GPIO_PinState GetDispenserFoam()
+{
+    return HAL_GPIO_ReadPin(Dozator_Pena_GPIO_Port, Dozator_Pena_Pin);
+}
+
+/**
+ * Считывает состояние датчика потока.
+ * @return //TODO Добавить состояние датчика.
+ */
+GPIO_PinState GetSensorStream()
+{
+    return HAL_GPIO_ReadPin(DatchikPotoka_GPIO_Port, DatchikPotoka_Pin);
+}
+
+/**
+ * Проверяет состояние клапана пена.
+ * @return Вернет состояние клапана SET-клапан включен, RESET-выключен.
+ */
+GPIO_PinState GetValveFoam()
+{
+    return HAL_GPIO_ReadPin(Valve_Foam_GPIO_Port, Valve_Foam_Pin);
+}
+
+/**
+ * Управление клапаном осмос.
+ * @param state Состояние Включен/Выключен.
+ */
+void SetValveOsmos(GPIO_PinState state)
+{
+    HAL_GPIO_WritePin(Valve_Osmos_GPIO_Port, Valve_Osmos_Pin, state);
+}
+
+/**
+ * Проверяет состояние клапана осмос.
+ * @return Вернет состояние клапана SET-клапан включен, RESET-выключен.
+ */
+GPIO_PinState GetValveOsmos()
+{
+    return HAL_GPIO_ReadPin(Valve_Osmos_GPIO_Port, Valve_Osmos_Pin);
+}
+
+/**
+ * Управление клапаном сброса.
+ * @param state Состояние Включен/Выключен.
+ */
+void SetValveDrop(GPIO_PinState state)
+{
+    HAL_GPIO_WritePin(Valve_Sbros_GPIO_Port, Valve_Sbros_Pin, state);
+}
+
+/**
+ * Проверяет состояние клапана сброс.
+ * @return Вернет состояние клапана SET-клапан включен, RESET-выключен.
+ */
+GPIO_PinState GetValveDrop()
+{
+    return HAL_GPIO_ReadPin(Valve_Sbros_GPIO_Port, Valve_Sbros_Pin);
+}
+
+/**
+ * Управление клапаном горячей воды.
+ * @param state Состояние Включен/Выключен.
+ */
+void SetValveHotWater(GPIO_PinState state)
+{
+    HAL_GPIO_WritePin(Valve_Hot_Water_GPIO_Port, Valve_Hot_Water_Pin, state);
+}
+
+/**
+ * Проверяет состояние клапана горячей воды.
+ * @return Вернет состояние клапана SET-клапан включен, RESET-выключен.
+ */
+GPIO_PinState GetValveHotWater()
+{
+    return HAL_GPIO_ReadPin(Valve_Hot_Water_GPIO_Port, Valve_Hot_Water_Pin);
 }
 /* USER CODE END 2 */

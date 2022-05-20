@@ -19,7 +19,8 @@ void GetStatus()
     crc = GetCrc16(tx_usart_data, tx_usart_data[3] - 2);
     tx_usart_data[6] = crc >> 8;
     tx_usart_data[7] = crc;
-    HAL_UART_Transmit_IT(&huart2, tx_usart_data, tx_usart_data[3]);
+
+    SendDataUsart1(tx_usart_data,tx_usart_data[3]);
 }
 
 //По запросу отправляет свой UID

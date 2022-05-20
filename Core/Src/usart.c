@@ -24,6 +24,7 @@
 uint8_t tx_usart_data[BUF_LEN];
 uint8_t rx_usart_data[BUF_LEN];
 bool transmitComplete = false;
+bool errorTransmit = false;
 /* USER CODE END 0 */
 
 UART_HandleTypeDef huart1;
@@ -198,7 +199,7 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
     if(huart == &huart2)
     {
         transmitComplete = true;
-        //HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
+        //HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
     }
 }
 
@@ -206,7 +207,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
     if(huart == &huart2)
     {
-        //HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
         HAL_UART_Receive_IT(&huart2, rx_usart_data, RECEIV_LEN);
     }
 }
@@ -215,6 +215,7 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
 {
     if(huart == &huart2)
     {
+        errorTransmit = true;
         HAL_UART_Receive_IT(&huart2, rx_usart_data, RECEIV_LEN);
     }
 }
@@ -223,9 +224,10 @@ void HAL_UART_AbortReceiveCpltCallback(UART_HandleTypeDef *huart)
 {
     if(huart == &huart2)
     {
-        //HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+
     }
 }
+
 /**
  * Передает данные через USART1 и управляет передачей приемом RS485
  * @param pData массив с данными для передачи
@@ -237,10 +239,12 @@ HAL_StatusTypeDef SendDataUsart1(uint8_t *pData, uint16_t size)
     HAL_StatusTypeDef result;
     Cs_Rs485_Usart1(GPIO_PIN_SET);
     result = HAL_UART_Transmit_IT(&huart1, pData, size);
+    //while(transmitComplete || errorTransmit);
     Cs_Rs485_Usart1(GPIO_PIN_RESET);
 
     return result;
 }
+
 /**
  * Передает данные через USART2 и управляет передачей приемом RS485
  * @param pData массив с данными для передачи
