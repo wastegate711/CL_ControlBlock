@@ -49,7 +49,7 @@
 
 /* USER CODE BEGIN PV */
 extern uint8_t tx_usart_data[BUF_LEN];
-extern uint8_t rx_usart_data[BUF_LEN];
+extern uint8_t rx_usart1_data[BUF_LEN];
 //uint16_t result;
 uint8_t crc_test[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 //uint8_t access = 0; //содержит результат проверки CRC входящих данных.
@@ -102,16 +102,7 @@ int main(void)
   MX_SDIO_SD_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-    for(int i = 0; i < 255; i++)
-    {
-        tx_usart_data[i] = i;
-    }
 
-    char data[] = {"This serial port text test COM портом setting serial port state."};
-
-    //result = GetCrc16(crc_test, 10);
-    //HAL_UART_Transmit_IT(&huart2, tx_usart_data, 10);
-    //HAL_UART_Receive_IT(&huart2, rx_usart_data, 20);
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -127,31 +118,6 @@ int main(void)
 
     while(1)
     {
-//        if(rx_usart_data[0] == compAddr &&
-//           rx_usart_data[1] == blockAddr &&
-//           rx_usart_data[3] == recievLen - huart2.RxXferCount)
-//        {
-//            if(access = CompareCrc16(rx_usart_data) == 1)
-//            {
-//
-//            }
-//
-//            HAL_UART_AbortReceive(&huart2);
-//            memset(rx_usart_data, 0, sizeof(rx_usart_data));
-//        }
-        //////////////////
-        Foo(GPIOD, GPIO_PIN_15);
-        if(rx_usart_data[9] == 0x09)
-        {
-            //HAL_Delay(20);
-            HAL_UART_Transmit_IT(&huart2, tx_usart_data, 50);
-            //HAL_UART_Transmit_IT(&huart2, data, 100);
-            HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
-            ArrayClear(rx_usart_data, 50);
-            HAL_UART_AbortReceive_IT(&huart2);
-            HAL_UART_Receive_IT(&huart2, rx_usart_data, 20);
-        }
-        HAL_Delay(30);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

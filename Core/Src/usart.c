@@ -22,7 +22,7 @@
 
 /* USER CODE BEGIN 0 */
 uint8_t tx_usart_data[BUF_LEN];
-uint8_t rx_usart_data[BUF_LEN];
+uint8_t rx_usart1_data[BUF_LEN];
 bool transmitComplete = false;
 bool errorTransmit = false;
 /* USER CODE END 0 */
@@ -199,7 +199,6 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
     if(huart == &huart2)
     {
         transmitComplete = true;
-        //HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
     }
 }
 
@@ -207,7 +206,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
     if(huart == &huart2)
     {
-        HAL_UART_Receive_IT(&huart2, rx_usart_data, RECEIV_LEN);
+        HAL_UART_Receive_IT(&huart1, rx_usart1_data, RECEIV_LEN);
     }
 }
 
@@ -216,7 +215,7 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
     if(huart == &huart2)
     {
         errorTransmit = true;
-        HAL_UART_Receive_IT(&huart2, rx_usart_data, RECEIV_LEN);
+        HAL_UART_Receive_IT(&huart1, rx_usart1_data, RECEIV_LEN);
     }
 }
 
