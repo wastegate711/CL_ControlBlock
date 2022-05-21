@@ -70,5 +70,5 @@ GPIO_PinState GetValveHotWater();
 #ifdef __cplusplus
 }
 #endif
-#endif /*__GPIO_H__ */
+#endif /*__ GPIO_H__ */
 
