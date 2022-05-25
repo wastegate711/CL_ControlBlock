@@ -11,6 +11,13 @@
 // Команды запросов
 #define GET_STATUS 0x01
 #define GET_UID 0x02
+#define SET_VALVE_COOL_WATER 0x03
+#define SET_VALVE_HOT_WATER 0x04
+#define SET_VALVE_OSMOS 0x05
+#define SET_VALVE_FOAM  0x06
+#define SET_VALVE_AIR   0x07
+#define SET_VALVE_INSECT 0x08
+#define SET_VALVE_Drop  0x09
 
 // Флаги и статусы состояния.
 

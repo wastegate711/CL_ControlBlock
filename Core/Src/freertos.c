@@ -25,7 +25,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <memory.h>
+#include <string.h>
 #include <GlobalSettings.h>
 #include <Crc16.h>
 #include "RequestsSorting.h"
@@ -125,20 +125,13 @@ void StartDefaultTask(void *argument)
     /* Infinite loop */
     for(;;)
     {
-//        if(RECEIV_LEN - huart2.RxXferCount >= 5)
-//        {
-//            HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
-//            memset(rx_usart1_data, 0, sizeof(rx_usart1_data));
-//            HAL_UART_AbortReceive_IT(&huart2);
-//            HAL_UART_Receive_IT(&huart2, rx_usart1_data, RECEIV_LEN);
-//        }
         if(RECEIV_LEN - huart1.RxXferCount != 0)
         {
             if(rx_usart1_data[0] == COMP_ADDRESS &&
                rx_usart1_data[1] == CONTROL_BLOCK_ADDRESS &&
                rx_usart1_data[3] == RECEIV_LEN - huart1.RxXferCount)
             {
-                if(access = CompareCrc16(rx_usart1_data) == 1)
+                if(CompareCrc16(rx_usart1_data) == 1)
                 {
                     IncomingRequest(rx_usart1_data);
                 }
@@ -153,7 +146,8 @@ void StartDefaultTask(void *argument)
                 HAL_UART_Receive_IT(&huart1, rx_usart1_data, RECEIV_LEN); //включение прерываний для входящих данных
             }
         }
-        osDelay(10);
+
+        osDelay(1000);
     }
   /* USER CODE END StartDefaultTask */
 }
