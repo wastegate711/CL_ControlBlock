@@ -1,9 +1,9 @@
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * @file    gpio.h
+  * @file    sdio.h
   * @brief   This file contains all the function prototypes for
-  *          the gpio.c file
+  *          the sdio.c file
   ******************************************************************************
   * @attention
   *
@@ -18,8 +18,8 @@
   */
 /* USER CODE END Header */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __GPIO_H__
-#define __GPIO_H__
+#ifndef __SDIO_H__
+#define __SDIO_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -32,43 +32,21 @@ extern "C" {
 
 /* USER CODE END Includes */
 
+extern SD_HandleTypeDef hsd;
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
 
-void MX_GPIO_Init(void);
+void MX_SDIO_SD_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-void Cs_Rs485_Usart1(GPIO_PinState state);
-void Cs_Rs485_Usart2(GPIO_PinState state);
-void SetValveCoolWater(GPIO_PinState state);
-void SetValveHotWater(GPIO_PinState state);
-void SetValveAir(GPIO_PinState state);
-void SetValveFoam(GPIO_PinState state);
-void SetValveDrop(GPIO_PinState state);
-void SetValveOsmos(GPIO_PinState state);
-void SetValveInsect(GPIO_PinState state);
-void SetDispenserVosk(GPIO_PinState state);
-void SetDispenserFoam(GPIO_PinState state);
-void SetMotorStart(GPIO_PinState state);
-void SetMotorRevers(GPIO_PinState state);
-GPIO_PinState GetMotorRevers();
-GPIO_PinState GetMotorStart();
-GPIO_PinState GetCdCardDetect();
-GPIO_PinState GetDispenserFoam();
-GPIO_PinState GetDispenserVosk();
-GPIO_PinState GetValveInsect();
-GPIO_PinState GetSensorStream();
-GPIO_PinState GetValveFoam();
-GPIO_PinState GetValveAir();
-GPIO_PinState GetValveDrop();
-GPIO_PinState GetValveOsmos();
-GPIO_PinState GetValveCoolWaterState();
-GPIO_PinState GetValveHotWater();
+
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus
 }
 #endif
-#endif /*__ GPIO_H__ */
+
+#endif /* __SDIO_H__ */
 

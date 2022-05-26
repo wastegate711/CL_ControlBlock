@@ -27,11 +27,14 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "GlobalSettings.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "stdbool.h"
+#include "gpio.h"
+#include "GlobalSettings.h"
 /* USER CODE END Includes */
+
+extern UART_HandleTypeDef huart1;
 
 extern UART_HandleTypeDef huart2;
 
@@ -39,10 +42,12 @@ extern UART_HandleTypeDef huart2;
 #define BUF_LEN     255
 /* USER CODE END Private defines */
 
+void MX_USART1_UART_Init(void);
 void MX_USART2_UART_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+HAL_StatusTypeDef SendDataUsart1(uint8_t *pData, uint16_t size);
+HAL_StatusTypeDef SendDataUsart2(uint8_t *pData, uint16_t size);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

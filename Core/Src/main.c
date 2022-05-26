@@ -20,6 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
+#include "sdio.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -47,8 +48,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-extern uint8_t tx_usart_data[BUF_LEN];
-extern uint8_t rx_usart_data[BUF_LEN];
+extern uint8_t tx_usart1_data[BUF_LEN];
+extern uint8_t rx_usart1_data[BUF_LEN];
 //uint16_t result;
 uint8_t crc_test[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 //uint8_t access = 0; //содержит результат проверки CRC входящих данных.
@@ -98,22 +99,16 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART2_UART_Init();
+  MX_SDIO_SD_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-    for(int i = 0; i < 255; i++)
-    {
-        tx_usart_data[i] = i;
-    }
 
-    char data[] = {"This serial port text test COM портом setting serial port state."};
-
-    //result = GetCrc16(crc_test, 10);
-    //HAL_UART_Transmit_IT(&huart2, tx_usart_data, 10);
-    //HAL_UART_Receive_IT(&huart2, rx_usart_data, 20);
   /* USER CODE END 2 */
 
   /* Init scheduler */
   osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
   MX_FREERTOS_Init();
+
   /* Start scheduler */
   osKernelStart();
 
@@ -123,31 +118,6 @@ int main(void)
 
     while(1)
     {
-//        if(rx_usart_data[0] == compAddr &&
-//           rx_usart_data[1] == blockAddr &&
-//           rx_usart_data[3] == recievLen - huart2.RxXferCount)
-//        {
-//            if(access = CompareCrc16(rx_usart_data) == 1)
-//            {
-//
-//            }
-//
-//            HAL_UART_AbortReceive(&huart2);
-//            memset(rx_usart_data, 0, sizeof(rx_usart_data));
-//        }
-        //////////////////
-        Foo(GPIOD, GPIO_PIN_15);
-        if(rx_usart_data[9] == 0x09)
-        {
-            //HAL_Delay(20);
-            HAL_UART_Transmit_IT(&huart2, tx_usart_data, 50);
-            //HAL_UART_Transmit_IT(&huart2, data, 100);
-            HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
-            ArrayClear(rx_usart_data, 50);
-            HAL_UART_AbortReceive_IT(&huart2);
-            HAL_UART_Receive_IT(&huart2, rx_usart_data, 20);
-        }
-        HAL_Delay(30);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -168,6 +138,7 @@ void SystemClock_Config(void)
   */
   __HAL_RCC_PWR_CLK_ENABLE();
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
@@ -175,14 +146,15 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLM = 4;
-  RCC_OscInitStruct.PLL.PLLN = 168;
+  RCC_OscInitStruct.PLL.PLLM = 25;
+  RCC_OscInitStruct.PLL.PLLN = 336;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
-  RCC_OscInitStruct.PLL.PLLQ = 4;
+  RCC_OscInitStruct.PLL.PLLQ = 7;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
   }
+
   /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
@@ -260,4 +232,3 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-
