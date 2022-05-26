@@ -4,7 +4,7 @@
 #include "stm32f4xx.h"
 
 // Адреса.
-#define COMP_ADDRESS 0x01 // Адрес ведущего.
+#define MASTER_ADDRESS 0x01 // Адрес ведущего.
 #define CONTROL_BLOCK_ADDRESS 0x02 // Адрес блока управления.
 #define PULT_BLOCK_ADDRESS 0x03 // Адрес пульта.
 
@@ -18,6 +18,9 @@
 #define SET_VALVE_AIR   0x07
 #define SET_VALVE_INSECT 0x08
 #define SET_VALVE_Drop  0x09
+#define SET_DISPENSER_FOAM   0x0A
+#define SET_DISPENSER_VOSK  0x0B
+#define GET_SENSOR_STREAM   0x0C
 
 // Флаги и статусы состояния.
 

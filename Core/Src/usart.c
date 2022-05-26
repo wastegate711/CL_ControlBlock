@@ -21,7 +21,7 @@
 #include "usart.h"
 
 /* USER CODE BEGIN 0 */
-uint8_t tx_usart_data[BUF_LEN];
+uint8_t tx_usart1_data[BUF_LEN];
 uint8_t rx_usart1_data[BUF_LEN];
 bool transmitComplete = false;
 bool errorTransmit = false;

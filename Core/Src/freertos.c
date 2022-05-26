@@ -127,7 +127,7 @@ void StartDefaultTask(void *argument)
     {
         if(RECEIV_LEN - huart1.RxXferCount != 0)
         {
-            if(rx_usart1_data[0] == COMP_ADDRESS &&
+            if(rx_usart1_data[0] == MASTER_ADDRESS &&
                rx_usart1_data[1] == CONTROL_BLOCK_ADDRESS &&
                rx_usart1_data[3] == RECEIV_LEN - huart1.RxXferCount)
             {

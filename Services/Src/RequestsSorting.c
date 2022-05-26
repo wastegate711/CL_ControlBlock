@@ -3,7 +3,7 @@
 #include "usart.h"
 #include "GlobalSettings.h"
 
-extern uint8_t tx_usart_data[BUF_LEN];
+extern uint8_t tx_usart1_data[BUF_LEN];
 
 /**
  * Функция производит сортировку входящих запросов.
@@ -38,6 +38,15 @@ void IncomingRequest(const uint8_t *data)
             break;
         case SET_VALVE_Drop:
             SetValveDropState(data[4]);
+            break;
+        case SET_DISPENSER_FOAM:
+            SetDispenserFoamState(data[4]);
+            break;
+        case SET_DISPENSER_VOSK:
+            SetDispenserVoskState(data[4]);
+            break;
+        case GET_SENSOR_STREAM:
+            GetSensorStreamState();
             break;
     }
 }
