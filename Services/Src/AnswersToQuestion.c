@@ -199,6 +199,25 @@ void SetDispenserVoskState(uint8_t state)
             break;
     }
 }
+/**
+ * Управляет состоянием клапана сброса
+ * @param state Состояние порта SET/RESET
+ */
+void SetValveInsectState(uint8_t state)
+{
+    switch(state)
+    {
+        case 0x00:
+            SetValveInsect(GPIO_PIN_RESET);
+            break;
+        case 0x01:
+            SetValveInsect(GPIO_PIN_SET);
+            break;
+        default:
+            SetValveInsect(GPIO_PIN_RESET);
+            break;
+    }
+}
 
 /**
  * Отправляет ведущему состояние датчика потока

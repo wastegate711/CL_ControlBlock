@@ -59,7 +59,7 @@ uint8_t statusState = 0x00; // текущий статус состояния.
 osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
   .name = "defaultTask",
-  .stack_size = 128 * 4,
+  .stack_size = 1024 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
 
@@ -147,7 +147,7 @@ void StartDefaultTask(void *argument)
             }
         }
 
-        osDelay(1000);
+        osDelay(30);
     }
   /* USER CODE END StartDefaultTask */
 }

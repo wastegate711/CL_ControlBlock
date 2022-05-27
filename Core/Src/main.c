@@ -99,7 +99,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART2_UART_Init();
-  MX_SDIO_SD_Init();
+  //MX_SDIO_SD_Init(); //TODO подает в ошибку, необходимо разобраться.
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 

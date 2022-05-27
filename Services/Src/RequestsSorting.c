@@ -35,6 +35,7 @@ void IncomingRequest(const uint8_t *data)
             SetValveAirState(data[4]);
             break;
         case SET_VALVE_INSECT:
+            SetValveInsectState(data[4]);
             break;
         case SET_VALVE_Drop:
             SetValveDropState(data[4]);
