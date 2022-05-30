@@ -6,6 +6,7 @@
 #include "GlobalSettings.h"
 #include "Crc16.h"
 #include "string.h"
+#include "Flash.h"
 
 // Отправляет ведущему текущее состояние.
 void GetStatus(void);

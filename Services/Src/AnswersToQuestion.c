@@ -34,10 +34,31 @@ void GetStatus(void)
 //По запросу отправляет свой UID
 void GetUID(void) //TODO необходимо доделать.
 {
+    uint32_t uidPart1 = ReadFlash(UID_BASE_ADDRESS);
+    uint32_t uidPart2 = ReadFlash(UID_BASE_ADDRESS + 4);
+    uint32_t uidPart3 = ReadFlash(UID_BASE_ADDRESS + 8);
+
     tx_usart1_data[0] = MASTER_ADDRESS;
     tx_usart1_data[1] = CONTROL_BLOCK_ADDRESS;
     tx_usart1_data[2] = GET_UID;
-    tx_usart1_data[3] = 0x00;
+    tx_usart1_data[3] = 0x12;
+    tx_usart1_data[4] = uidPart1 >> 24;
+    tx_usart1_data[5] = uidPart1 >> 16;
+    tx_usart1_data[6] = uidPart1 >> 8;
+    tx_usart1_data[7] = uidPart1;
+    tx_usart1_data[8] = uidPart2 >> 24;
+    tx_usart1_data[9] = uidPart2 >> 16;
+    tx_usart1_data[10] = uidPart2 >> 8;
+    tx_usart1_data[11] = uidPart2;
+    tx_usart1_data[12] = uidPart3 >> 24;
+    tx_usart1_data[13] = uidPart3 >> 16;
+    tx_usart1_data[14] = uidPart3 >> 8;
+    tx_usart1_data[15] = uidPart3;
+    crc= GetCrc16(tx_usart1_data,tx_usart1_data[3]-2);
+    tx_usart1_data[16]=crc>>8;
+    tx_usart1_data[17]=crc;
+
+    SendDataUsart1(tx_usart1_data,tx_usart1_data[3]);
 }
 
 /**
@@ -199,6 +220,7 @@ void SetDispenserVoskState(uint8_t state)
             break;
     }
 }
+
 /**
  * Управляет состоянием клапана сброса
  * @param state Состояние порта SET/RESET
@@ -226,15 +248,15 @@ void GetSensorStreamState(void)
 {
     memset(tx_usart1_data, 0, sizeof(tx_usart1_data));
 
-    tx_usart1_data[0]=MASTER_ADDRESS;
-    tx_usart1_data[1]=CONTROL_BLOCK_ADDRESS;
-    tx_usart1_data[2]=GET_SENSOR_STREAM;
-    tx_usart1_data[3]=0x08;
-    tx_usart1_data[4]=GetSensorStream();
-    tx_usart1_data[5]=0x00;
-    crc= GetCrc16(tx_usart1_data,tx_usart1_data[3]-2);
-    tx_usart1_data[6]=crc>>8;
-    tx_usart1_data[7]=crc;
+    tx_usart1_data[0] = MASTER_ADDRESS;
+    tx_usart1_data[1] = CONTROL_BLOCK_ADDRESS;
+    tx_usart1_data[2] = GET_SENSOR_STREAM;
+    tx_usart1_data[3] = 0x08;
+    tx_usart1_data[4] = GetSensorStream();
+    tx_usart1_data[5] = 0x00;
+    crc = GetCrc16(tx_usart1_data, tx_usart1_data[3] - 2);
+    tx_usart1_data[6] = crc >> 8;
+    tx_usart1_data[7] = crc;
 
     SendDataUsart1(tx_usart1_data, tx_usart1_data[3]);
 }
