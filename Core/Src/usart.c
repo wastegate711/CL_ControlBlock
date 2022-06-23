@@ -238,8 +238,10 @@ HAL_StatusTypeDef SendDataUsart1(uint8_t *pData, uint16_t size)
 {
     HAL_StatusTypeDef result;
     Cs_Rs485_Usart1(GPIO_PIN_SET);
+    osDelay(5);
     result = HAL_UART_Transmit_IT(&huart1, pData, size);
     //while(transmitComplete || errorTransmit);
+    osDelay(5);
     Cs_Rs485_Usart1(GPIO_PIN_RESET);
 
     return result;

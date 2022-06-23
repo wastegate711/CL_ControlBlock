@@ -26,7 +26,6 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "Foo.h"
 #include "Crc16.h"
 #include <string.h>
 /* USER CODE END Includes */
