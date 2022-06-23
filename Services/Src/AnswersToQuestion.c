@@ -32,7 +32,7 @@ void GetStatus(void)
 }
 
 //По запросу отправляет свой UID
-void GetUID(void) //TODO необходимо доделать.
+void GetUID(void)
 {
     uint32_t uidPart1 = ReadFlash(UID_BASE_ADDRESS);
     uint32_t uidPart2 = ReadFlash(UID_BASE_ADDRESS + 4);

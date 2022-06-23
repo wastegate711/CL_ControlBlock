@@ -29,6 +29,7 @@ extern "C" {
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
+#include "cmsis_os2.h"
 #include "stdbool.h"
 #include "gpio.h"
 #include "GlobalSettings.h"
