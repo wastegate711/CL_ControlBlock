@@ -68,12 +68,12 @@ uint8_t CompareCrc16(uint8_t *Buf)//функция сравнения CRC
     uint8_t a[2];
     uint8_t b[2];
     uint8_t Dostup = 0;
-    if(Buf[3] > 4)
+    if(Buf[4] > 4)
     {
-        Compare = GetCrc16(Buf, Buf[3] - 2);
+        Compare = GetCrc16(Buf, Buf[4] - 2);
         a[0] = Compare >> 8;
         a[1] = Compare;
-        Len = Buf[3];
+        Len = Buf[4];
         Len = Len - 1;
         b[1] = Buf[Len];
         Len = Len - 1;

@@ -5,6 +5,18 @@
 
 extern uint8_t tx_usart1_data[BUF_LEN];
 
+/*
+         * Формат сообщений
+         * [0] = [адрес ведущего 1 байт]
+         * [1] = [адрес ведомого 1 байт]
+         * [2] = [команда 1 байт]
+         * [3] = [Номер сообщения 1 байт]
+         * [4] = [длина сообщения 1 байт]
+         * [5] = [данные 0-251 байт]
+         * [6-7] = [CRC16-2 байта]
+         */
+/**
+
 /**
  * Функция производит сортировку входящих запросов.
  * @param data Массив который нужно сортировать.
@@ -20,31 +32,31 @@ void IncomingRequest(const uint8_t *data)
             GetUID();
             break;
         case SET_VALVE_COOL_WATER:
-            SetValveCoolWaterState(data[4]);
+            SetValveCoolWaterState(data[5]);
             break;
         case SET_VALVE_HOT_WATER:
-            SetValveHotWaterState(data[4]);
+            SetValveHotWaterState(data[5]);
             break;
         case SET_VALVE_OSMOS:
-            SetValveOsmosState(data[4]);
+            SetValveOsmosState(data[5]);
             break;
         case SET_VALVE_FOAM:
-            SetValveFoamState(data[4]);
+            SetValveFoamState(data[5]);
             break;
         case SET_VALVE_AIR:
-            SetValveAirState(data[4]);
+            SetValveAirState(data[5]);
             break;
         case SET_VALVE_INSECT:
-            SetValveInsectState(data[4]);
+            SetValveInsectState(data[5]);
             break;
         case SET_VALVE_Drop:
-            SetValveDropState(data[4]);
+            SetValveDropState(data[5]);
             break;
         case SET_DISPENSER_FOAM:
-            SetDispenserFoamState(data[4]);
+            SetDispenserFoamState(data[5]);
             break;
         case SET_DISPENSER_VOSK:
-            SetDispenserVoskState(data[4]);
+            SetDispenserVoskState(data[5]);
             break;
         case GET_SENSOR_STREAM:
             GetSensorStreamState();

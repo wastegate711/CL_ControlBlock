@@ -22,5 +22,7 @@ void SetDispenserFoamState(uint8_t state);
 void SetDispenserVoskState(uint8_t state);
 void SetValveInsectState(uint8_t state);
 void GetSensorStreamState(void);
+void SetMessageCounter(uint8_t number);
+uint8_t GetMessageCounter();
 
 #endif //CONTROLBLOCK_ANSWERSTOQUESTION_H

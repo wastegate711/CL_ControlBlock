@@ -3,17 +3,35 @@
 extern uint8_t tx_usart1_data[BUF_LEN];
 extern uint8_t statusState;
 uint16_t crc;
+uint8_t messageCounter;
 
 /*
- * Формат ответа
- * [0] = Адрес ведущего
- * [1] = Адрес ведомого
- * [2] = Команда
- * [3] = Длинна посылки (включая CRC16)
- * [4] = Данные
- * [^2] = CRC16
- * [^1] = CRC16
+         * Формат сообщений
+         * [0] = [адрес ведущего 1 байт]
+         * [1] = [адрес ведомого 1 байт]
+         * [2] = [команда 1 байт]
+         * [3] = [Номер сообщения 1 байт]
+         * [4] = [длина сообщения 1 байт]
+         * [5] = [данные 0-251 байт]
+         * [6-7] = [CRC16-2 байта]
+         */
+/**
+ * Устанавливает в счетчик номера сообщений.
+ * @param number Номер сообщения.
  */
+void SetMessageCounter(uint8_t number)
+{
+    messageCounter = number;
+}
+
+/**
+ * Получает номер последнего входящего сообщения.
+ * @return Номер сообщения.
+ */
+uint8_t GetMessageCounter()
+{
+    return messageCounter;
+}
 
 // Отправляет ведущему текущее состояние.
 void GetStatus(void)
@@ -21,14 +39,15 @@ void GetStatus(void)
     tx_usart1_data[0] = MASTER_ADDRESS;
     tx_usart1_data[1] = CONTROL_BLOCK_ADDRESS;
     tx_usart1_data[2] = GET_STATUS;
-    tx_usart1_data[3] = 0x08;
-    tx_usart1_data[4] = statusState;
-    tx_usart1_data[5] = 0x00;
-    crc = GetCrc16(tx_usart1_data, tx_usart1_data[3] - 2);
-    tx_usart1_data[6] = crc >> 8;
-    tx_usart1_data[7] = crc;
+    tx_usart1_data[3] = GetMessageCounter();
+    tx_usart1_data[4] = 0x09;
+    tx_usart1_data[5] = statusState;
+    tx_usart1_data[6] = 0x00;
+    crc = GetCrc16(tx_usart1_data, tx_usart1_data[4] - 2);
+    tx_usart1_data[7] = crc >> 8;
+    tx_usart1_data[8] = crc;
 
-    SendDataUsart1(tx_usart1_data, tx_usart1_data[3]);
+    SendDataUsart1(tx_usart1_data, tx_usart1_data[4]);
 }
 
 //По запросу отправляет свой UID
@@ -41,24 +60,25 @@ void GetUID(void)
     tx_usart1_data[0] = MASTER_ADDRESS;
     tx_usart1_data[1] = CONTROL_BLOCK_ADDRESS;
     tx_usart1_data[2] = GET_UID;
-    tx_usart1_data[3] = 0x12;
-    tx_usart1_data[4] = uidPart1 >> 24;
-    tx_usart1_data[5] = uidPart1 >> 16;
-    tx_usart1_data[6] = uidPart1 >> 8;
-    tx_usart1_data[7] = uidPart1;
-    tx_usart1_data[8] = uidPart2 >> 24;
-    tx_usart1_data[9] = uidPart2 >> 16;
-    tx_usart1_data[10] = uidPart2 >> 8;
-    tx_usart1_data[11] = uidPart2;
-    tx_usart1_data[12] = uidPart3 >> 24;
-    tx_usart1_data[13] = uidPart3 >> 16;
-    tx_usart1_data[14] = uidPart3 >> 8;
-    tx_usart1_data[15] = uidPart3;
-    crc= GetCrc16(tx_usart1_data,tx_usart1_data[3]-2);
-    tx_usart1_data[16]=crc>>8;
-    tx_usart1_data[17]=crc;
+    tx_usart1_data[3] = GetMessageCounter();
+    tx_usart1_data[4] = 0x13;
+    tx_usart1_data[5] = uidPart1 >> 24;
+    tx_usart1_data[6] = uidPart1 >> 16;
+    tx_usart1_data[7] = uidPart1 >> 8;
+    tx_usart1_data[8] = uidPart1;
+    tx_usart1_data[9] = uidPart2 >> 24;
+    tx_usart1_data[10] = uidPart2 >> 16;
+    tx_usart1_data[11] = uidPart2 >> 8;
+    tx_usart1_data[12] = uidPart2;
+    tx_usart1_data[13] = uidPart3 >> 24;
+    tx_usart1_data[14] = uidPart3 >> 16;
+    tx_usart1_data[15] = uidPart3 >> 8;
+    tx_usart1_data[16] = uidPart3;
+    crc = GetCrc16(tx_usart1_data, tx_usart1_data[4] - 2);
+    tx_usart1_data[17] = crc >> 8;
+    tx_usart1_data[18] = crc;
 
-    SendDataUsart1(tx_usart1_data,tx_usart1_data[3]);
+    SendDataUsart1(tx_usart1_data, tx_usart1_data[4]);
 }
 
 /**
@@ -67,7 +87,7 @@ void GetUID(void)
  */
 void SetValveCoolWaterState(uint8_t state)
 {
-    switch(state)
+    switch (state)
     {
         case 0x00:
             SetValveCoolWater(GPIO_PIN_RESET);
@@ -87,7 +107,7 @@ void SetValveCoolWaterState(uint8_t state)
  */
 void SetValveHotWaterState(uint8_t state)
 {
-    switch(state)
+    switch (state)
     {
         case 0x00:
             SetValveHotWater(GPIO_PIN_RESET);
@@ -107,7 +127,7 @@ void SetValveHotWaterState(uint8_t state)
  */
 void SetValveOsmosState(uint8_t state)
 {
-    switch(state)
+    switch (state)
     {
         case 0x00:
             SetValveOsmos(GPIO_PIN_RESET);
@@ -127,7 +147,7 @@ void SetValveOsmosState(uint8_t state)
  */
 void SetValveFoamState(uint8_t state)
 {
-    switch(state)
+    switch (state)
     {
         case 0x00:
             SetValveFoam(GPIO_PIN_RESET);
@@ -147,7 +167,7 @@ void SetValveFoamState(uint8_t state)
  */
 void SetValveAirState(uint8_t state)
 {
-    switch(state)
+    switch (state)
     {
         case 0x00:
             SetValveAir(GPIO_PIN_RESET);
@@ -167,7 +187,7 @@ void SetValveAirState(uint8_t state)
  */
 void SetValveDropState(uint8_t state)
 {
-    switch(state)
+    switch (state)
     {
         case 0x00:
             SetValveDrop(GPIO_PIN_RESET);
@@ -187,7 +207,7 @@ void SetValveDropState(uint8_t state)
  */
 void SetDispenserFoamState(uint8_t state)
 {
-    switch(state)
+    switch (state)
     {
         case 0x00:
             SetDispenserFoam(GPIO_PIN_RESET);
@@ -207,7 +227,7 @@ void SetDispenserFoamState(uint8_t state)
  */
 void SetDispenserVoskState(uint8_t state)
 {
-    switch(state)
+    switch (state)
     {
         case 0x00:
             SetDispenserVosk(GPIO_PIN_RESET);
@@ -227,7 +247,7 @@ void SetDispenserVoskState(uint8_t state)
  */
 void SetValveInsectState(uint8_t state)
 {
-    switch(state)
+    switch (state)
     {
         case 0x00:
             SetValveInsect(GPIO_PIN_RESET);
@@ -251,14 +271,15 @@ void GetSensorStreamState(void)
     tx_usart1_data[0] = MASTER_ADDRESS;
     tx_usart1_data[1] = CONTROL_BLOCK_ADDRESS;
     tx_usart1_data[2] = GET_SENSOR_STREAM;
-    tx_usart1_data[3] = 0x08;
-    tx_usart1_data[4] = GetSensorStream();
-    tx_usart1_data[5] = 0x00;
-    crc = GetCrc16(tx_usart1_data, tx_usart1_data[3] - 2);
-    tx_usart1_data[6] = crc >> 8;
-    tx_usart1_data[7] = crc;
+    tx_usart1_data[3] = GetMessageCounter();
+    tx_usart1_data[4] = 0x09;
+    tx_usart1_data[5] = GetSensorStream();
+    tx_usart1_data[6] = 0x00;
+    crc = GetCrc16(tx_usart1_data, tx_usart1_data[4] - 2);
+    tx_usart1_data[7] = crc >> 8;
+    tx_usart1_data[8] = crc;
 
-    SendDataUsart1(tx_usart1_data, tx_usart1_data[3]);
+    SendDataUsart1(tx_usart1_data, tx_usart1_data[4]);
 }
 
 
